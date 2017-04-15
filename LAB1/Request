@@ -1,0 +1,3 @@
+1.Push (when queue is full ,print “full” and do nothing)
+2.pop(when queue is empty ,print “empty ” and do nothing)
+3.print(print out the element from front to rear)
