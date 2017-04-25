@@ -1,109 +1,85 @@
 #include <iostream>
-#include <string.h>
-#include <stdlib.h>
-
 using namespace std;
 
-class Students_Data
-{
-private:
-    int height;
-    char *name;
-public:
-   Students_Data(){
-   	height=0;
-   	name=NULL;
-   	cout<<"constructor1 called!"<<endl;
-   }
-   Students_Data (int c,char* b)
-   {
-   	name=b; 
-   height=c;
-   cout<<"constructor2 called!"<<endl;
-   }
-   void set_name(char* b){name=b;}
-   void set_height(int c){height=c;}
-   char* get_name() {return name;}
-   int get_height() {return height;};
-   Students_Data(const Students_Data &a){
-   name=a.name;
-   height=a.height;
-   cout<<"copy constructor called!"<<endl;}
-   ~Students_Data(){
-       delete[] name;
-       delete[] &height;
-       cout<<"destructor called!"<<endl;
-    };
-	   }; /*** your code ***/
+class student_data{
+	private:
+		int height;
+		string name;
+	public:	
+		student_data(){
+			//constructor
+			//cout<<"constructor 1!"<<endl;
+			height = 0;
+			name = "";
+		}
+		student_data(int input_height, string input_name){
+			//constructor
+			//cout<<"constructor 2!"<<endl;
+			height = input_height;
+			name = input_name;
+		}
+		student_data(const student_data &tmp){
+			//cout<<"copy constructor!"<<endl;
+			name = tmp.name;
+			height = tmp.height;
+		}
+		void set_value(int new_height, string new_name){
+			height = new_height;
+			name = new_name;
+		}
+		string get_name(){return name;}
+		int get_height(){return height;}
+		~student_data(){
+			//cout<<"destructor!"<<endl;
+		}
+};
 
+ostream& operator<<(ostream& out, student_data S){
+	out<<S.get_name()<<" "<<S.get_height();
+	return out;
+}
 
-int main()
-{
-   int a,i,j;
-   char* s;
-    /*** part I ***/
-    Students_Data S1();
-    Students_Data S2(160, "Tony");
-    Students_Data S3 = S2;
-
-    /*** part II ***/
-	cout<<S3.get_name()<<" "<<S3.get_height()<<endl;/// print the name and height of S3 before setting
-     
-	 S3.set_name("Jeff");
-	 S3.set_height(180);
-	 /// change the name and height of S3 into Jeff and 180
-     
-	 cout<<S3.get_name()<<" "<<S3.get_height()<<endl; /// print the name and height of S3 after setting
-
-    /*** part III ***/
-    Students_Data Data[5];
-    cout << "before sorting : "  << endl;
-    /***
-    set Data with name A B C D E
-    set their height with rand() function between 150~180
-    print the name and height of students from Data[0] to Data [4];
-    ***/
-    Data[0].set_name("A");
-    Data[1].set_name("B");
-    Data[2].set_name("C");
-    Data[3].set_name("D");
-    Data[4].set_name("E");
-	for(i=0;i<5;i++)
-    {
-    	int hei;
-    	hei=rand()%31+150;
-		Data[i].set_height(hei);
-    	cout<<Data[i].get_name()<<" "<<Data[i].get_height()<<endl;
-    }
-    /*** your code ***/
-
-    /*** sort 5 students with height ***/
-    /*** your code ***/
-    for(i=4;i>0;i--)
-    {for(j=0;j<i;j++)
-    {
-    if(Data[j+1].get_height()<Data[j].get_height())
-    {
-    	int m;
-    	char* n;
-    	m=Data[j].get_height();
-    	n=Data[j].get_name();
-		Data[j].set_name(Data[j+1].get_name());
-		Data[j].set_height(Data[j+1].get_height());
-		Data[j+1].set_name(n);
-		Data[j+1].set_height(m);
-		
-    }
-    
-    }
-    }
+int main(){
 	
-	cout << "after sorting : " << endl;
-    /*** print student's name and height after sorting ***/
-    /*** your code ***/
-    for(i=0;i<5;i++)
-    {
-    	cout<<Data[i].get_name()<<" "<<Data[i].get_height()<<endl;
-    }
-    return 0;
+	/*** Part 1 ***/
+	student_data S1;
+	student_data S2(160, "Tony");
+	student_data S3 = S2;
+	
+	/*** Part 2 ***/
+	cout<<S3<<endl;
+	//cout<<"S3: "<<S3.get_name()<<" "<<S3.get_height()<<endl;
+	S3.set_value(180, "Jeff");
+	cout<<"After Change: ";
+	cout<<S3<<endl;
+	
+	/*** Part 3 ***/
+	student_data data_set[5];
+	cout<<"Before Sorting:"<<endl;
+	for(int i=0;i<5;i++){
+		int set_height = rand()%31+150;
+		string set_name;
+		if(i == 0) set_name = "A";
+		else if(i == 1) set_name = "B";
+		else if(i == 2) set_name = "C";
+		else if(i == 3) set_name = "D";
+		else set_name = "E";	
+		data_set[i].set_value(set_height, set_name);
+		cout<<data_set[i]<<endl;
+	}
+	
+	for(int i = 4; i > 0; i--){
+		for(int j = 0;j < 5; j++){
+			if(data_set[j+1].get_height()<data_set[j].get_height()){
+				swap(data_set[j], data_set[j+1]);
+				
+			}
+		}
+	}
+	cout<<"After Sorting:"<<endl;
+	for(int i = 0; i < 5; i++) 
+		cout<<data_set[i]<<endl;
+	
+	
+	return 0;
 }
